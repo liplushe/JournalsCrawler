@@ -5,6 +5,15 @@ import csv
 
 
 def create_urls(year, volume):
+    """Create all articals' url
+
+    Args:
+        year (int): the year of journal
+        volume (int): the month of journal
+
+    Returns:
+        list: the urls list
+    """
     url = "https://www.journals.uchicago.edu/toc/jpe/"
     urls = []
     for i in range(12, 0, -1):
