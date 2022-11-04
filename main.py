@@ -5,14 +5,19 @@ import csv
 
 
 def create_urls(year, volume):
-    """Create all articals' url
+    """
+    Create urls of the journals by year and volume number
+    Parameters
+    ----------
+    year : int
+        year of journal
+    volume : int
+        volume of journal
 
-    Args:
-        year (int): the year of journal
-        volume (int): the month of journal
-
-    Returns:
-        list: the urls list
+    Returns
+    -------
+    urls : list
+        the list of journals' urls
     """
     url = "https://www.journals.uchicago.edu/toc/jpe/"
     urls = []
@@ -22,12 +27,37 @@ def create_urls(year, volume):
 
 
 def translate_words(words):
+    """
+    Translate English to Chinese by using Youdao Translator API to
+    Parameters
+    ----------
+    words : str
+        article title in English
+
+    Returns
+    -------
+    translation : str
+        the Chinese translation of article title
+    """
     xml = requests.get("http://fanyi.youdao.com/translate?&i={0}&doctype=xml&version".format(words))
     root = ET.fromstring(xml.text)
     return root.find("./translation").text.replace(' ', '').replace('\n', '').replace('\r', '')
 
 
-def get_titles(urls, filepath):
+def save_titles(urls, filepath):
+    """
+    save journal's article titles to CSV file. Format: title, Chinese translation
+    Parameters
+    ----------
+    urls : list
+        the url list of journal
+    filepath : str
+        CSV file path and file name
+
+    Returns
+    -------
+
+    """
     with open(filepath, "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(["title", "translation"])
@@ -46,4 +76,4 @@ def get_titles(urls, filepath):
 
 
 urls = create_urls(2021, 129)  # 年份和期数
-get_titles(urls, "./2020-128.csv")  # 要保存的路径和文件名
+save_titles(urls, "./2020-128.csv")  # 要保存的路径和文件名
