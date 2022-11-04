@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 import csv
 
 
-def create_ur_list(year, volume):
+def create_url_list(year, volume):
     """
     Create url_list of the journals by year and volume number
     Parameters
@@ -74,6 +74,12 @@ def save_titles(urls, filepath):
                 print(orig, translation)
     csvfile.close()
 
-
-urls = create_ur_list(2021, 129)  # 年份和期数
-save_titles(urls, "./2020-128.csv")  # 要保存的路径和文件名
+if __name__ == "__main__":
+    year_volume = [
+                [2018, 126],
+                [2019, 127],
+                [2020, 128],
+                [2021, 129]]
+    for i in year_volume:
+        urls = create_url_list(i[0], i[1]) # 年份和期数
+        save_titles(urls, filepath=f"./{i[0]}-{i[1]}.csv") # 要保存的路径和文件名
