@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import xml.etree.ElementTree as ET
 import csv
 
+from requests.cookies import create_cookie
+
 
 def create_url_list(year, volume):
     """
@@ -28,7 +30,7 @@ def create_url_list(year, volume):
 
 def translate_words(words):
     """
-    Translate English to Chinese by using Youdao Translator API to
+    Translate English to Chinese by using Youdao Translator API
     Parameters
     ----------
     words : str
@@ -39,7 +41,7 @@ def translate_words(words):
     translation : str
         the Chinese translation of article title
     """
-    xml = requests.get("http://fanyi.youdao.com/translate?&i={0}&doctype=xml&version".format(words))
+    xml = requests.get(f"http://fanyi.youdao.com/translate?&i={words}&doctype=xml&version")
     root = ET.fromstring(xml.text)
     return root.find("./translation").text.replace(' ', '').replace('\n', '').replace('\r', '')
 
@@ -74,12 +76,9 @@ def save_titles(urls, filepath):
                 print(orig, translation)
     csvfile.close()
 
+
 if __name__ == "__main__":
-    year_volume = [
-                [2018, 126],
-                [2019, 127],
-                [2020, 128],
-                [2021, 129]]
+    year_volume = [[2019, 127], [2020, 128], [2021, 129]]
     for i in year_volume:
-        urls = create_url_list(i[0], i[1]) # 年份和期数
-        save_titles(urls, filepath=f"./{i[0]}-{i[1]}.csv") # 要保存的路径和文件名
+        URLs = create_url_list(i[0], i[1])
+        save_titles(URLs, f"./{i[0]}-{i[1]}.csv")
