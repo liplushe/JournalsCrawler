@@ -60,7 +60,7 @@ def save_titles(urls, filepath):
     -------
 
     """
-    with open(filepath, "w", newline="") as csvfile:
+    with open(filepath, "w", newline="", encoding="utf-8") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(["title", "translation"])
         for url in urls:
